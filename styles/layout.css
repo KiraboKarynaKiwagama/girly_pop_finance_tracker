@@ -1,0 +1,56 @@
+.card {
+    margin-bottom: var(--spacing-large);
+}
+
+.settings-card {
+    display: flex;
+    gap: var(--spacing-large);
+}
+
+
+.spending-cap-section {
+    flex: 1;
+}
+
+#contact-info{
+
+}
+
+.header-inner{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: var(--spacing-large);
+}
+
+nav ul li a {
+    
+    padding: 7px 14px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: var(--font-headings);
+}
+
+nav ul li a:hover {
+    background-color: var(--accent-purple-deep);
+    color: #ffffff;
+    border-radius: var(--radius-small);
+}
+
+
+#welcome{
+    margin-top: var(--spacing-large);
+    margin-bottom: var(--spacing-large);
+}
+
+main section{
+    
+}
+

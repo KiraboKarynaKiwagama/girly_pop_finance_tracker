@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root{
+    --primary-color: #f1e2e3;
+    --secondary-color: #c97b8a;
+    --heading-color:#3f0a29;
+    --text-color: #6b1045;
+    --warning-color: #cf2600;
+    --btn-primary:#d4789a;
+    --btn-primary-hover: #b85c7a;
+    --border-color: #e6b8c0;
+    --border-focus-color: #c97b8a;
+    --error-color: #b05252;
+    --error-bg: #fceaea;
+    --accent-purple-deep: #3f0a29;
+    --shadow-color:#3f0a29;
+
+    --font-headings: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    --font-small-size: 0.9rem;
+    --font-medium-size: 1.1rem;
+    --font-large-size: 1.5rem;
+
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
+
+    --radius-small: 4px;
+    --radius-medium: 8px;
+    --radius-large: 12px;
+
+    --shadow-light:  rgb(95, 1, 1);
+
+    --transition-duration: 0.3s;
+
+}
+
+
+html {
+ font-size: 16px;
+ scroll-behavior: smooth;
+ box-sizing: border-box;
+}
+
+header{
+    font-family: var(--font-headings);
+    font-size: var(--font-large-size);
+    background-color: var(--secondary-color);
+    border-radius: var(--radius-medium);
+    box-shadow: 0px 4px 6px var(--shadow-color);
+}
+    
+ 
+select{
+    background-color: var(--btn-primary);
+    border: 1px solid var(--border-color);
+    width: 20%;
+    border-radius: var(--radius-small);
+}
+
+body{
+ background-color: var(--primary-color);
+ font-family: var(--font-body);
+ color: var(--text-color);
+ line-height: 1.6;
+ min-height: 100vh;
+ margin: 0;
+ padding: 0;
+}
+
+h1 {
+ color: var(--heading-color);
+}
+
+h2 {
+ color: var(--heading-color);
+}
+
+h3 {
+color: var(--heading-color);
+}
+
+p {
+ color: var(--text-color);
+}
+
+a {
+ color: var(--text-color);
+}
+
+a:hover {
+
+}
+
+a:focus {
+
+}
+
+nav {
+
+}
+
+nav ul {
+
+}
+
+nav ul li {
+
+}
+
+nav ul li a {
+
+}
+
+nav ul li a:hover {
+
+}
+
+nav ul li a.active {
+
+}
+
+main {
+
+}
+
+section {
+
+}
+
+button{
+ font-family: var(--font-body);
+    font-size: var(--font-small-size);
+    font-weight: 600;
+    color: #ffffff;
+    background-color: var(--btn-primary);
+    border: 2px solid transparent;
+    border-radius: var(--radius-small);
+    padding: 10px 10px;
+    cursor: pointer;
+    /* transition: background-color var(--transition-duration),
+                transform var(--transition-duration),
+                box-shadow var(--transition-duration); */
+}
+
+button:hover{
+ background-color: var(--accent-purple-deep);
+ border-radius: var(--radius-small);
+ border: 2px;
+ border-color: var(--border-color);
+}
+
+button:focus{
+ outline: none;
+}
+
+button:focus-visible{
+ outline: 3px solid var(--border-focus-color);
+ border-color: var(--border-focus-color);
+ outline-offset: 2px;
+}
+
+button:active{
+    background-color: var(--btn-primary-hover);
+    border: 2px;
+
+}
+
+input{
+    background-color: whitesmoke;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-small);
+}
+
+footer{
+  font-family: var(--font-headings);
+    font-size: var(--font-small-size);
+    background-color: var(--secondary-color);
+    border-radius: var(--radius-medium);
+    box-shadow: 0px 4px 6px var(--shadow-color);
+}
+
+
+@media (min-width: 768px) {
+
+    .header-inner {
+        flex-direction: column;        /* logo and nav side by side */
+        height: auto;                    /* adjust height for larger screens */
+        padding: var(--spacing-medium);      /* add padding for larger screens */
+        gap: var(--spacing-medium);          /* add gap between logo and nav */
+    }
+    
+    nav ul {
+        flex-direction: wrap;            /* nav items in a row */
+        gap: var(--spacing-medium); 
+        justify-content: center;          /* center nav items */         
+
+}
+
+@media (min-width: 1024px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;  /* all 4 in a row */
+    }
+
+    main {
+        padding: 48px;  /* more padding on larger screens */
+
+}
