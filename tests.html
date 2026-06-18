@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validator Tests</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fdf6f7;
+            color: #3f0a29;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            margin-top: 32px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6b1045;
+        }
+
+        .test {
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .pass {
+            background: #ebf4ec;
+            color: #4d7a52;
+            border: 1px solid #b8d9bb;
+        }
+
+        .fail {
+            background: #fceaea;
+            color: #b05252;
+            border: 1px solid #e8b0b0;
+        }
+
+        .summary {
+            margin-top: 32px;
+            padding: 16px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Validator Tests</h1>
+    <p>Girly Pop Student Finance Tracker</p>
+
+    <div id="results"></div>
+    <div id="summary" class="summary"></div>
+
+<script type="module">
+
+import {
+    validateDescription,
+    validateAmount,
+    validateDate,
+    validateCategory,
+    validateNoDuplicateWords
+} from './scripts/validators.js';
+
+let passed = 0;
+let failed = 0;
+const results = document.getElementById('results');
+
+function test(label, actualResult, expectedValid) {
+    const div = document.createElement('div');
+    const didPass = actualResult.valid === expectedValid;
+
+    if (didPass) {
+        passed++;
+        div.className = 'test pass';
+        div.textContent = '✓ PASS — ' + label;
+    } else {
+        failed++;
+        div.className = 'test fail';
+        div.textContent = '✗ FAIL — ' + label;
+    }
+
+    results.appendChild(div);
+}
+
+function heading(text) {
+    const h2 = document.createElement('h2');
+    h2.textContent = text;
+    results.appendChild(h2);
+}
+
+// ── DESCRIPTION ───────────────────────────────────────────
+heading('Description');
+
+test('normal text passes',
+    validateDescription('Lunch at cafeteria'), true);
+
+test('leading space fails',
+    validateDescription(' Lunch'), false);
+
+test('trailing space fails',
+    validateDescription('Lunch '), false);
+
+test('empty string fails',
+    validateDescription(''), false);
+
+test('single word passes',
+    validateDescription('Food'), true);
+
+// ── AMOUNT ────────────────────────────────────────────────
+heading('Amount');
+
+test('whole number passes',
+    validateAmount('100'), true);
+
+test('two decimal places passes',
+    validateAmount('12.50'), true);
+
+test('three decimal places fails',
+    validateAmount('12.999'), false);
+
+test('letters fail',
+    validateAmount('abc'), false);
+
+test('negative number fails',
+    validateAmount('-5'), false);
+
+test('empty string fails',
+    validateAmount(''), false);
+
+test('zero passes',
+    validateAmount('0'), true);
+
+// ── DATE ──────────────────────────────────────────────────
+heading('Date');
+
+test('valid date passes',
+    validateDate('2025-09-29'), true);
+
+test('wrong format fails',
+    validateDate('29-09-2025'), false);
+
+test('slashes instead of hyphens fails',
+    validateDate('2025/09/29'), false);
+
+test('month 13 fails',
+    validateDate('2025-13-01'), false);
+
+test('empty string fails',
+    validateDate(''), false);
+
+test('short year fails',
+    validateDate('25-09-29'), false);
+
+// ── CATEGORY ──────────────────────────────────────────────
+heading('Category');
+
+test('single word passes',
+    validateCategory('Food'), true);
+
+test('two words with space passes',
+    validateCategory('Personal Care'), true);
+
+test('ampersand fails',
+    validateCategory('Food & Drink'), false);
+
+test('numbers fail',
+    validateCategory('Food123'), false);
+
+test('empty string fails',
+    validateCategory(''), false);
+
+// ── DUPLICATE WORDS (ADVANCED) ────────────────────────────
+heading('Duplicate Word Detector (Advanced Regex)');
+
+test('no duplicates passes',
+    validateNoDuplicateWords('Lunch at the cafeteria'), true);
+
+test('"to to" fails',
+    validateNoDuplicateWords('I went to to the store'), false);
+
+test('"the the" fails',
+    validateNoDuplicateWords('bought the the book'), false);
+
+test('case insensitive "The the" fails',
+    validateNoDuplicateWords('The the book'), false);
+
+test('single word passes',
+    validateNoDuplicateWords('Food'), true);
+
+// ── SUMMARY ───────────────────────────────────────────────
+const summary = document.getElementById('summary');
+const total = passed + failed;
+summary.textContent = passed + ' of ' + total + ' tests passed';
+
+if (failed === 0) {
+    summary.style.background = '#ebf4ec';
+    summary.style.color = '#4d7a52';
+} else {
+    summary.style.background = '#fceaea';
+    summary.style.color = '#b05252';
+}
+
+</script>
+</body>
+</html>
