@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1718620800000,
+    "type": "income",
+    "date": "2025-06-15",
+    "description": "Monthly scholarship payment",
+    "category": "Other",
+    "amount": "500000"
+  },
+  {
+    "id": 1718707200000,
+    "type": "expense",
+    "date": "2025-06-16",
+    "description": "Calculus and Physics textbooks",
+    "category": "Books",
+    "amount": "85000"
+  },
+  {
+    "id": 1718793600000,
+    "type": "expense",
+    "date": "2025-06-17",
+    "description": "Lunch and snacks at campus cafeteria",
+    "category": "Food",
+    "amount": "18000"
+  },
+  {
+    "id": 1718880000000,
+    "type": "income",
+    "date": "2025-06-18",
+    "description": "Part-time tutoring job payment",
+    "category": "Other",
+    "amount": "120000"
+  },
+  {
+    "id": 1718966400000,
+    "type": "expense",
+    "date": "2025-06-19",
+    "description": "Bus fare and taxi to campus",
+    "category": "Transport",
+    "amount": "12500"
+  },
+  {
+    "id": 1719052800000,
+    "type": "expense",
+    "date": "2025-06-20",
+    "description": "Movie night with friends",
+    "category": "Entertainment",
+    "amount": "35000"
+  },
+  {
+    "id": 1719139200000,
+    "type": "expense",
+    "date": "2025-06-21",
+    "description": "Electricity and water bills",
+    "category": "Utilities",
+    "amount": "45000"
+  },
+  {
+    "id": 1719225600000,
+    "type": "expense",
+    "date": "2025-06-22",
+    "description": "Dinner at restaurant near campus",
+    "category": "Food",
+    "amount": "42000"
+  },
+  {
+    "id": 1719312000000,
+    "type": "income",
+    "date": "2025-06-23",
+    "description": "Freelance web design project",
+    "category": "Other",
+    "amount": "250000"
+  },
+  {
+    "id": 1719398400000,
+    "type": "expense",
+    "date": "2025-06-24",
+    "description": "Laptop repair and maintenance",
+    "category": "Other",
+    "amount": "60000"
+  },
+  {
+    "id": 1719484800000,
+    "type": "expense",
+    "date": "2025-06-25",
+    "description": "Exercise class membership registration",
+    "category": "Entertainment",
+    "amount": "30000"
+  },
+  {
+    "id": 1719571200000,
+    "type": "income",
+    "date": "2025-06-26",
+    "description": "Bonus payment from summer internship",
+    "category": "Other",
+    "amount": "300000"
+  }
+]

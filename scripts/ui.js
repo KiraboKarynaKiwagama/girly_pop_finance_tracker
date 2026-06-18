@@ -1,4 +1,3 @@
-let transactions = [];
 
 function showSection(sectionId){
     const sections = document.querySelectorAll('.section');
@@ -151,31 +150,19 @@ function clearAllErrors() {
 }
 
 function saveTransaction(formData) {
-    // Create a unique ID for this transaction
-    const transaction = {
-        id: Date.now(),
-        type: formData.type,
-        date: formData.date,
-        description: formData.description,
-        category: formData.category,
-        amount: formData.amount
-    };
+    //call state.js to add transaction and save
+    addTransactionToState(formData);
     
-    // Add to the array
-    transactions.push(transaction);
-    
-    // Save to localStorage
-    saveToLocalStorage(transactions);
-    
-    // Display in table
+    //Update UI display
     displayTransactions();
     
-    // Reset form
+    //Reset form
     document.getElementById('transaction-form').reset();
     clearAllErrors();
     
-    console.log('Transaction saved!', transaction);
+    console.log('Transaction saved!');
 }
+
 
 function displayTransactions() {
     const recordsBody = document.getElementById('records-body');
@@ -205,10 +192,9 @@ function displayTransactions() {
 document.addEventListener('DOMContentLoaded', function() {
     // Load saved transactions from localStorage
     transactions = loadFromLocalStorage();
-    
+    initializeState(); //loads from storage
     // Display them immediately
     displayTransactions();
-    
     // Setup everything else
     setupNav();
     showSection('welcome');
