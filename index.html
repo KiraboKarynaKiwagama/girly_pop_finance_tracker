@@ -71,7 +71,27 @@
                 <h3>Net Balance</h3>
                 <p id="net-balance">UGX 0.00</p>
             </div>
+        </div>
 
+        <div class="card cap-progress-container" id="cap-progress-container">
+        
+            <div class="cap-progress-header">
+                <h3>Monthly Spending Cap</h3>
+                <span class="cap-progress-text" id="cap-progress-text">0% used</span>
+            </div>
+
+            <div class="cap-progress-bar">
+                <div class="cap-progress-fill" id="cap-progress-fill" style="width: 0%"></div>
+            </div>
+
+            <div class="cap-progress-details">
+                <span id="cap-spent">UGX 0.00</span>
+                <span id="cap-remaining">UGX 0.00 remaining</span>
+            </div>
+
+            <div id="cap-warning-message" class="cap-warning hidden" role="status" aria-live="assertive">
+            
+            </div>
         </div>
 
         <div id="cap-warning"
@@ -237,18 +257,12 @@
                 <div class="form-group">
                     <label for="spending-cap">Monthly cap amount:</label>
                     <input type="text" id="spending-cap" placeholder="e.g. 50000">
+                    <small id="cap-help">Set your monthly spending limit. You'll get a warning when you're close</small>
+                    <span class="error-msg" id="spending-cap-error"></span>
                 </div>
-                
-                <label for="theme">Theme:</label>
-                <select id="theme" name="theme">
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                    <option value="default">Default</option>
-
-                </select>
-
+    
                 <br>
-                <br>
+
                 <button type="button" id="save-settings-btn">Save Settings</button>
                     <p id="settings-statuses" role="status" aria-live="polite"></p><p id="settings-status" role="status" aria-live="polite"></p>
             </div>

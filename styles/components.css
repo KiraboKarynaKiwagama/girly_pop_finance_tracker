@@ -5,3 +5,165 @@
     padding: var(--spacing-large);
     text-align: center;
 }
+
+.cap-progress-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: #c97b8a;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.cap-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.cap-progress-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.cap-progress-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #010000;
+}
+
+/* Progress Bar */
+.cap-progress-bar {
+    width: 100%;
+    height: 24px;
+    background: #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.cap-progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #6C63FF, #8B83FF);
+    border-radius: 12px;
+    transition: width 0.5s ease, background 0.5s ease;
+    width: 0%;
+    position: relative;
+}
+
+/* Color changes based on usage */
+.cap-progress-fill.warning {
+    background: linear-gradient(to right, #FFA94D, #FFBE76);
+}
+
+.cap-progress-fill.danger {
+    background: linear-gradient(to right, #FF6B6B, #FF8E8E);
+}
+
+.cap-progress-fill.exceeded {
+    background: linear-gradient(to right, #E74C3C, #C0392B);
+}
+
+/* Progress Details */
+.cap-progress-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.cap-progress-details span {
+    font-weight: 500;
+}
+
+/* Warning Messages */
+.cap-warning {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cap-warning.hidden {
+    display: none;
+}
+
+.cap-warning.info {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+    display: block;
+}
+
+.cap-warning.warning {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    display: block;
+}
+
+.cap-warning.danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    display: block;
+}
+
+.cap-warning.exceeded {
+    background: #fecaca;
+    color: #7f1d1d;
+    border: 1px solid #f87171;
+    display: block;
+    animation: pulse-warning 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-warning {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Cap Status in Settings */
+.cap-status {
+    margin-top: 10px;
+    padding: 12px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+}
+
+.cap-status .status-item {
+    margin: 4px 0;
+}
+
+.cap-status .status-label {
+    font-weight: 500;
+}
+
+/* Spending cap input */
+#spending-cap {
+    width: 200px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .cap-progress-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .cap-progress-details {
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+    }
+    
+    #spending-cap {
+        width: 100%;
+    }
+}

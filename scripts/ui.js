@@ -1,245 +1,236 @@
-
-function showSection(sectionId){
-    const sections = document.querySelectorAll('.section');
-    //gets all sections with the id
-
-    sections.forEach(section => {
+function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
-        //this removes active from whichever section currently has the active
-
-        if (section.id === sectionId){
-            section.classList.add('active');
-            //now it places active on whichever section is chosen
-        }
-    
+        if (section.id === sectionId) section.classList.add('active');
     });
-
-
 }
 
-function setupNav(){
-    const navLinks = document.querySelectorAll('nav a');
-    //collect the nav links
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            //adding a click listener to each link
-            event.preventDefault();
-            //this is to prevent default link behaviour
-
-            const sectionId = this.getAttribute('href').substring(1);
-            //getting section ID from the data section attribute
-
-            showSection(sectionId);
+function setupNav() {
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection(this.getAttribute('href').substring(1));
         });
     });
-
-    console.log('Navigation setup complete!');
 }
 
-function setupFormValidation(){
+function setupForm() {
     const form = document.getElementById('transaction-form');
-
-    form.addEventListener('submit', function(event){
-        event.preventDefault();
-        console.log('Form Submitted!');
-
-        //now we get all values from the form
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
         const formData = {
             type: document.getElementById('type').value,
             date: document.getElementById('date').value,
             description: document.getElementById('description').value,
             category: document.getElementById('category').value,
-            amount: document.getElementById('amount').value,
+            amount: document.getElementById('amount').value
         };
-
-        //validate the form
-        const validationResult = validateForm(formData);
-
-        if (validationResult.isValid) {
-            //if valid, save the transaction
-            saveTransaction(formData);
+        
+        const result = validateAll(formData);
+        
+        if (result.valid) {
+            addTransactionToState(formData);
+            updateUI();
+            this.reset();
+            document.getElementById('live-region').textContent = 'Transaction saved!';
         } else {
-            // if invalid, show errors
-            showValidationErrors(validationResult.errors);
+            showErrors(result.errors);
         }
     });
-
 }
 
-function validateForm(formData){
+function showErrors(errors) {
+    // Clear all errors first
+    document.querySelectorAll('.error-msg, .error').forEach(el => el.textContent = '');
     
-    const result = validateAll(formData);
-
-    if (result.valid) {
-        return{
-            isValid: true,
-            errors: {}
-        };
-    } else {
-        return {
-            isValid: false,
-            errors: result.errors
-        };
-    }
-    
-
-    //validating each field
-    const dateValidation = validateDate(formData.date);
-    if (!dateValidation.isValid) {
-        errors.date = dateValidation.message;
-        isValid = false;
-    }
-
-    const descriptionValidation = validateDescription(formData.description);
-    if (!descriptionValidation.isValid) {
-        errors.description = descriptionValidation.message;
-        isValid = false;
-    }
-
-    const amountValidation = validateAmount(formData.amount);
-    if (!amountValidation.isValid) {
-        errors.amount = amountValidation.message;
-        isValid = false;
-    }
-
-    const categoryValidation = validateCategory(formData.category);
-    if (!categoryValidation.isValid) {
-        errors.category = categoryValidation.message;
-        isValid = false;
-    }
-
-    const typeValidation = validateType(formData.type);
-    if (!typeValidation.isValid) {
-        errors.type = typeValidation.message;
-        isValid = false;
-    }
-
-    return {
-        isValid : isValid,
-        errors: errors
-    };
+    // Show new errors
+    if (errors.date) document.getElementById('date-error').textContent = errors.date;
+    if (errors.description) document.getElementById('description-error').textContent = errors.description;
+    if (errors.amount) document.getElementById('amount-error').textContent = errors.amount;
+    if (errors.category) document.getElementById('category-error').textContent = errors.category;
+    if (errors.type) document.getElementById('type-error').textContent = errors.type;
 }
 
-function showValidationErrors(errors) {
-    clearAllErrors();
-    //first is to clear any already existing error messages
- 
-    if (errors.date) {
-        document.getElementById('date-error').textContent = errors.date;
-    }
-    if (errors.description) {
-        document.getElementById('description-error').textContent = errors.description;
-    }
-    if (errors.amount) {
-        document.getElementById('amount-error').textContent = errors.amount;
-    }
-    if (errors.category){
-        document.getElementById('category-error').textContent = errors.category;
-    }
-    if (errors.type) {
-        document.getElementById('type-error').textContent = errors.type;
-    }
-}
-
-//clear all error messsages
-function clearAllErrors() {
-    document.querySelectorAll('.error-msg, .error').forEach(el => {
-        el.textContent = '';
-    });
-}
-
-function saveTransaction(formData) {
-    //call state.js to add transaction and save
-    addTransactionToState(formData);
+function renderTable(transactions) {
+    const tbody = document.getElementById('records-body');
+    tbody.innerHTML = '';
     
-    //Update UI display
-    displayTransactions();
-    
-    //Reset form
-    document.getElementById('transaction-form').reset();
-    clearAllErrors();
-    
-    console.log('Transaction saved!');
-}
-
-function renderTable(transactionsToDisplay) {
-    const recordsBody = document.getElementById('records-body');
-    recordsBody.innerHTML = ''; // Clear existing rows
-    
-    if (transactionsToDisplay.length === 0) {
+    if (!transactions || transactions.length === 0) {
         document.getElementById('empty-message').style.display = 'block';
         return;
     }
     
     document.getElementById('empty-message').style.display = 'none';
     
-    transactionsToDisplay.forEach(transaction => {
+    transactions.forEach(t => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${transaction.date}</td>
-            <td>${transaction.description}</td>
-            <td>${transaction.category}</td>
-            <td>${transaction.type}</td>
-            <td>UGX ${parseFloat(transaction.amount).toFixed(2)}</td>
+            <td>${t.date}</td>
+            <td>${t.description}</td>
+            <td>${t.category}</td>
+            <td>${t.type}</td>
+            <td>UGX ${parseFloat(t.amount).toFixed(2)}</td>
         `;
-        recordsBody.appendChild(row);
+        tbody.appendChild(row);
     });
 }
 
 function displayTransactions() {
-    renderTable(transactions);
-}
-
-function sortTransactions(transactionsArray, sortBy, direction) {
-    const sorted = [...transactionsArray];
-    
-    sorted.sort((a, b) => {
-        let valA = a[sortBy];
-        let valB = b[sortBy];
-        
-        if (typeof valA === 'string') {
-            valA = valA.toLowerCase();
-            valB = valB.toLowerCase();
-        }
-        
-        if (direction === 'asc') {
-            return valA > valB ? 1 : -1;
-        } else {
-            return valA < valB ? 1 : -1;
-        }
-    });
-    
-    return sorted;
+    renderTable(getAllTransactions());
 }
 
 function setupSort() {
-    const sortBtn = document.getElementById('sort-btn');
-    if (!sortBtn) return;
+    const btn = document.getElementById('sort-btn');
+    if (!btn) return;
     
-    sortBtn.addEventListener('click', function() {
+    btn.addEventListener('click', function() {
         const sortBy = document.getElementById('sort-select').value;
         const direction = document.getElementById('sort-direction').value;
-        
-        const sorted = sortTransactions(transactions, sortBy, direction);
+        const sorted = sortTransactions(getAllTransactions(), sortBy, direction);
         renderTable(sorted);
     });
 }
 
+function sortTransactions(arr, sortBy, direction) {
+    const sorted = [...arr];
+    sorted.sort((a, b) => {
+        let valA = a[sortBy];
+        let valB = b[sortBy];
+        if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+        return direction === 'asc' ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
+    });
+    return sorted;
+}
+
+function renderDashboard() {
+    const transactions = getAllTransactions();
+    let income = 0, expenses = 0;
+    
+    transactions.forEach(t => {
+        const amount = parseFloat(t.amount);
+        t.type === 'income' ? income += amount : expenses += amount;
+    });
+    
+    document.getElementById('total-transactions').textContent = transactions.length;
+    document.getElementById('total-income').textContent = `UGX ${income.toFixed(2)}`;
+    document.getElementById('total-expenses').textContent = `UGX ${expenses.toFixed(2)}`;
+    document.getElementById('net-balance').textContent = `UGX ${(income - expenses).toFixed(2)}`;
+}
+
+function setupSearch() {
+    const input = document.getElementById('search-input');
+    if (!input) return;
+    
+    input.addEventListener('input', function() {
+        const term = this.value;
+        const caseInsensitive = document.getElementById('case-toggle').checked;
+        
+        if (!term) {
+            displayTransactions();
+            return;
+        }
+        
+        try {
+            const flags = caseInsensitive ? 'i' : '';
+            const regex = new RegExp(term, flags);
+            const filtered = getAllTransactions().filter(t => regex.test(t.description));
+            renderTable(filtered);
+            document.getElementById('search-error').textContent = '';
+        } catch (e) {
+            document.getElementById('search-error').textContent = 'Invalid regex pattern';
+        }
+    });
+}
+
+function getCap() {
+    const cap = localStorage.getItem('spendingCap');
+    return cap ? parseFloat(cap) : 0;
+}
+
+function updateCap() {
+    const cap = getCap();
+    const transactions = getAllTransactions();
+    const now = new Date();
+    const spent = transactions
+        .filter(t => t.type === 'expense' && new Date(t.date).getMonth() === now.getMonth())
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    
+    const container = document.querySelector('.cap-progress-container');
+    if (!container || cap <= 0) {
+        if (container) container.style.display = 'none';
+        return;
+    }
+    
+    container.style.display = 'block';
+    const percent = Math.min((spent / cap) * 100, 100);
+    
+    document.getElementById('cap-progress-fill').style.width = percent + '%';
+    document.getElementById('cap-progress-text').textContent = Math.round(percent) + '% used';
+    document.getElementById('cap-spent').textContent = 'Spent: UGX ' + spent.toLocaleString();
+    document.getElementById('cap-remaining').textContent = 'UGX ' + Math.max(0, cap - spent).toLocaleString() + ' remaining';
+    
+    const warning = document.getElementById('cap-warning');
+    if (spent > cap) {
+        warning.className = 'cap-warning danger show';
+        warning.textContent = 'Exceeded cap by UGX ' + (spent - cap).toLocaleString();
+    } else if (percent >= 90) {
+        warning.className = 'cap-warning danger show';
+        warning.textContent = 'At ' + Math.round(percent) + '% of cap';
+    } else if (percent >= 70) {
+        warning.className = 'cap-warning warning show';
+        warning.textContent = 'Used ' + Math.round(percent) + '% of cap';
+    } else {
+        warning.className = 'cap-warning';
+    }
+}
+
+function setupSettings() {
+    document.getElementById('save-settings-btn').addEventListener('click', function() {
+        const cap = document.getElementById('spending-cap').value;
+        
+        if (cap && !isNaN(cap) && parseFloat(cap) > 0) {
+            localStorage.setItem('spendingCap', cap);
+            document.getElementById('settings-status').textContent = 'Cap saved!';
+            document.getElementById('settings-status').style.color = 'green';
+            updateCap();
+        } else if (cap === '') {
+            localStorage.removeItem('spendingCap');
+            document.getElementById('settings-status').textContent = ' Cap removed';
+            document.getElementById('settings-status').style.color = 'green';
+            updateCap();
+        } else {
+            document.getElementById('settings-status').textContent = ' Enter a valid amount';
+            document.getElementById('settings-status').style.color = 'red';
+        }
+        
+        setTimeout(() => document.getElementById('settings-status').textContent = '', 3000);
+    });
+    
+    // Load saved cap
+    const cap = getCap();
+    if (cap > 0) document.getElementById('spending-cap').value = cap;
+}
+
+function updateUI() {
+    displayTransactions();
+    renderDashboard();
+    updateCap();
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Load saved transactions from localStorage
-    transactions = loadFromLocalStorage();
-    initializeState(); //loads from storage
-    // Display them immediately
-    displayTransactions();
-    // Setup everything else
+    initializeState(); // From state.js
     setupNav();
-    showSection('welcome');
-    setupFormValidation();
-    // Setup search functionality
+    setupForm();
     setupSearch();
     setupSort();
+    setupSettings();
+    showSection('welcome');
+    updateUI();
 });
+
 
 
