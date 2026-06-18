@@ -163,19 +163,18 @@ function saveTransaction(formData) {
     console.log('Transaction saved!');
 }
 
-
-function displayTransactions() {
+function renderTable(transactionsToDisplay) {
     const recordsBody = document.getElementById('records-body');
     recordsBody.innerHTML = ''; // Clear existing rows
     
-    if (transactions.length === 0) {
+    if (transactionsToDisplay.length === 0) {
         document.getElementById('empty-message').style.display = 'block';
         return;
     }
     
     document.getElementById('empty-message').style.display = 'none';
     
-    transactions.forEach(transaction => {
+    transactionsToDisplay.forEach(transaction => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${transaction.date}</td>
@@ -185,6 +184,45 @@ function displayTransactions() {
             <td>UGX ${parseFloat(transaction.amount).toFixed(2)}</td>
         `;
         recordsBody.appendChild(row);
+    });
+}
+
+function displayTransactions() {
+    renderTable(transactions);
+}
+
+function sortTransactions(transactionsArray, sortBy, direction) {
+    const sorted = [...transactionsArray];
+    
+    sorted.sort((a, b) => {
+        let valA = a[sortBy];
+        let valB = b[sortBy];
+        
+        if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+        
+        if (direction === 'asc') {
+            return valA > valB ? 1 : -1;
+        } else {
+            return valA < valB ? 1 : -1;
+        }
+    });
+    
+    return sorted;
+}
+
+function setupSort() {
+    const sortBtn = document.getElementById('sort-btn');
+    if (!sortBtn) return;
+    
+    sortBtn.addEventListener('click', function() {
+        const sortBy = document.getElementById('sort-select').value;
+        const direction = document.getElementById('sort-direction').value;
+        
+        const sorted = sortTransactions(transactions, sortBy, direction);
+        renderTable(sorted);
     });
 }
 
@@ -199,6 +237,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setupNav();
     showSection('welcome');
     setupFormValidation();
+    // Setup search functionality
+    setupSearch();
+    setupSort();
 });
 
 

@@ -19,9 +19,32 @@ function getAllTransactions() {
     return [...transactions];  // Returns a copy
 }
 
-function initializeState() {
+async function initializeState() {
+    // Try to load from localStorage first
     transactions = loadFromLocalStorage();
-    console.log('State initialized with transactions');
+    
+    // If no data exists, load seed data instead
+    if (transactions.length === 0) {
+        await loadSeedData();
+    }
+}
+
+async function loadSeedData() {
+    try {
+        // Fetch seed.json
+        const response = await fetch('seed.json');
+        const seedData = await response.json();
+        
+        // Load seed data into transactions
+        transactions = seedData;
+        
+        // Save to localStorage
+        saveToLocalStorage(transactions);
+        
+        console.log('Seed data loaded:', transactions.length, 'transactions');
+    } catch (error) {
+        console.error('Error loading seed data:', error);
+    }
 }
 
 function deleteTransactionFromState(id) {
