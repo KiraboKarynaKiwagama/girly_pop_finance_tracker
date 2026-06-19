@@ -4,7 +4,7 @@ Welcome to the **Girly Pop Finance Tracker**!
 This is a vibrant, pink-themed finance application designed specifically for students to make tracking money fun, approachable, and exciting. Managing finances can be stressful, but opening an app that brings a smile to your face makes staying on top of your budget a breeze!
 
 **[Live Demo Website](https://kirabokarynakiwagama.github.io/girly_pop_finance_tracker/)** 
-**[Watch the Demo Video Here](Insert_Demo_Video_Link_Here)**
+**[Watch the Demo Video Here]((https://youtu.be/96dprs1MZzw))**
 
 ## Features
 
