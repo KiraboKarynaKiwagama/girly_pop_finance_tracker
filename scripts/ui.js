@@ -194,7 +194,7 @@ function setupSettings() {
         
         if (cap && !isNaN(cap) && parseFloat(cap) > 0) {
             localStorage.setItem('spendingCap', cap);
-            document.getElementById('settings-status').textContent = 'Cap saved!';
+            document.getElementById('settings-status').textContent = 'Setting saved!';
             document.getElementById('settings-status').style.color = 'green';
             updateCap();
         } else if (cap === '') {
@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupSettings();
     showSection('welcome');
     updateUI();
+
 });
 
 
